@@ -1,10 +1,10 @@
 ############################# Makefile ##########################
 CFLAGS= -W -Wall -Wextra -ansi -O2 -D_GNU_SOURCE `pkg-config --cflags --libs glib-2.0`
 
-OBJECTS:=$(patsubst %.c,%.o,$(wildcard *.c))
+OBJECTS:=$(patsubst %.c,%.o,$(wildcard src/*.c))
 BENCH = ../bench
 IMAGE = $$(date +%F-%T)_memusage.png
-DOC = ../docs
+DOC = docs
 EXECUTAVEL=SGV
 
 $(EXECUTAVEL): $(OBJECTS)
@@ -14,11 +14,10 @@ run:
 	./$(EXECUTAVEL)
 
 clean:
-	rm -rf *.o $(EXECUTAVEL) $(DOC)
+	rm -rf src/*.o $(EXECUTAVEL) $(DOC)
 
 doc:
-	doxygen Doxygen
-	mv docs ..
+	doxygen src/Doxygen
 
 grind:
 	valgrind --leak-check=full --show-reachable=no --show-leak-kinds=all ./$(EXECUTAVEL) 1
